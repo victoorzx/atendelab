@@ -50,23 +50,25 @@ require __DIR__ . '/../layouts/header.php';
 </div>
 
 <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-        const targets = {
-            pessoas: document.getElementById('totalPessoas'),
-            tipos: document.getElementById('totalTipos'),
-            atendimentos: document.getElementById('totalAtendimentos')
-        };
+document.addEventListener('DOMContentLoaded', async () => {
+    const targets = {
+        pessoas:      document.getElementById('totalPessoas'),
+        tipos:        document.getElementById('totalTipos'),
+        atendimentos: document.getElementById('totalAtendimentos')
+    };
 
-        for (const [controller, element] of Object.entries(targets)) {
-            try {
-                const response = await AtendeLabApi.get(controller, 'listar');
-                element.textContent = AtendeLabApi.toList(response).length;
-            } catch (error) {
-                element.textContent = '!';
-                element.title = error.message;
-            }
-        }
-    });
+    try {
+        const resposta = await AtendeLabApi.get('dashboard', 'resumo');
+        targets.pessoas.textContent      = resposta.indicadores.total_pessoas;
+        targets.tipos.textContent        = resposta.indicadores.total_tipos;
+        targets.atendimentos.textContent = resposta.indicadores.total_atendimentos;
+    } catch (error) {
+        Object.values(targets).forEach(el => {
+            el.textContent = '!';
+            el.title = error.message;
+        });
+    }
+});
 </script>
 
 <?php require __DIR__ . '/../layouts/footer.php'; ?>    

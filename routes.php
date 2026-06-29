@@ -79,6 +79,7 @@ switch ($controller) {
         $obj = new AtendimentosController();
         switch ($action) {
             case 'listar':        $obj->listar();        break;
+            case 'buscar':
             case 'visualizar':    $obj->visualizar();    break;
             case 'criar':         $obj->criar();         break;
             case 'alterarStatus':
